@@ -1,0 +1,5 @@
+Flask==1.1.2
+moment==0.10
+requests==2.22.0
+rq==1.5.2
+waitress==1.4.4
