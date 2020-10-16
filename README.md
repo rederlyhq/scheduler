@@ -44,7 +44,7 @@ When python failed the container just exited
 ```bash
 sudo docker run \
     -p 3003:3003 \
-    -e SERVER_PORT=3000 \
+    -e SERVER_PORT=3003 \
     -e REDIS_HOST=`ifconfig docker0 | grep "inet\b" | awk '{print $2}'` \
     -it rederly-scheduler /bin/sh
 ```
