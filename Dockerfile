@@ -2,6 +2,14 @@
 # set base image (host OS)
 FROM python:3.8
 
+ARG REDIS_HOST_ARG='localhost'
+ARG REDIS_PORT_ARG=6379
+ARG SERVER_PORT_ARG=3003
+
+ENV REDIS_HOST=$REDIS_HOST_ARG
+ENV REDIS_PORT=$REDIS_PORT_ARG
+ENV SERVER_PORT=$SERVER_PORT_ARG
+
 # set the working directory in the container
 WORKDIR /code
 
