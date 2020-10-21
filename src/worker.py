@@ -4,9 +4,14 @@ from datetime import datetime
 from web_hook_job import handle_job
 import moment
 import os
+import logging
+import json
 
-redis_host = os.environ.get('REDIS_HOST') or 'localhost'
-redis_port = os.environ.get('REDIS_PORT') or 6379
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+redis_host = os.environ.get('REDIS_HOST')
+redis_port = os.environ.get('REDIS_PORT')
 
 redis = Redis(host=redis_host, port=redis_port)
 queue = Queue(connection=redis)
@@ -17,7 +22,11 @@ def start_worker():
 
 def set_job(params):
     # job = queue.enqueue_at(datetime(2020, 10, 13, 22, 36), handle_event)
-    queue.enqueue_at(moment.date(params["time"]).date, handle_job, params, job_id=params["id"])
+    try:
+        logger.info(json.dumps({"msg": "recieved job", 'data': json.dumps(params['webHookScheduleEvent']['data'])}))
+        queue.enqueue_at(moment.date(params["time"]).date, handle_job, params, job_id=params["id"])
+    except Exception as e: # work on python 3.x
+        logger.error(json.dumps({'msg': 'Failed enqueue error: {}'.format(e) , 'params': params}))
 
 def list_scheduled_jobs():
     return queue.scheduled_job_registry.get_job_ids()
