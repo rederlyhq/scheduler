@@ -38,6 +38,10 @@ def get_job():
     # print(result)
     return result
 
+@app.route('/health/', methods=['GET'])
+def health():
+    return 'success'
+
 def start_server():
     serve(app, port = server_port)
     # app.run(host='::', port=3000)
