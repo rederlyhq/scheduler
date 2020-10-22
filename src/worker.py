@@ -23,7 +23,7 @@ def start_worker():
 def set_job(params):
     # job = queue.enqueue_at(datetime(2020, 10, 13, 22, 36), handle_event)
     try:
-        logger.info(json.dumps({"msg": "received job", 'request': json.dumps(params)}))
+        logger.info(json.dumps({"msg": "received job", 'data': json.dumps(params)}))
         queue.enqueue_at(moment.date(params["time"]).date, handle_job, params, job_id=params["id"])
     except Exception as e: # work on python 3.x
         logger.error(json.dumps({'msg': 'Failed enqueue error: {}'.format(e) , 'params': params}))
